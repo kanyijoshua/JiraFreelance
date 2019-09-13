@@ -10,8 +10,8 @@ using jirafrelance.Models;
 namespace jirafrelance.Migrations
 {
     [DbContext(typeof(JiraContext))]
-    [Migration("20190912090801_somechanged")]
-    partial class somechanged
+    [Migration("20190913123248_morechanges")]
+    partial class morechanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -225,6 +225,7 @@ namespace jirafrelance.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("FkBidUser")
+                        .IsRequired()
                         .HasColumnName("fk_bid_user");
 
                     b.Property<int>("FkJobBidded")
@@ -644,17 +645,17 @@ namespace jirafrelance.Migrations
                     b.Property<string>("JobAttachmentDownloadName")
                         .IsRequired()
                         .HasColumnName("job_attachment_download_name")
-                        .HasMaxLength(100);
+                        .HasMaxLength(300);
 
                     b.Property<string>("JobAttachmentFileName")
                         .IsRequired()
                         .HasColumnName("job_attachment_file_name")
-                        .HasMaxLength(100);
+                        .HasMaxLength(300);
 
                     b.Property<string>("JobAttachmentFilePath")
                         .IsRequired()
                         .HasColumnName("job_attachment_file_path")
-                        .HasMaxLength(20);
+                        .HasMaxLength(500);
 
                     b.HasKey("PkJobAttachmentId");
 

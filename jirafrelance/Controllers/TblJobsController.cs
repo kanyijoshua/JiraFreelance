@@ -25,7 +25,11 @@ namespace jirafrelance.Controllers
         // GET: TblJobs
         public async Task<IActionResult> Index()
         {
-            var jiraContext = _context.TblJob.Include(t => t.FkJobEmployerNavigation).Include(x=>x.TblBid);
+            IQueryable<TblJob> jiraContext = _context.TblJob.Include(t => t.FkJobEmployerNavigation).Include(x=>x.TblBid);
+            if (User.IsInRole("Employer"))
+            {
+                jiraContext = jiraContext.Where(x => x.FkJobEmployer == _userManager.GetUserId(User));
+            }
             return View(await jiraContext.ToListAsync());
         }
 

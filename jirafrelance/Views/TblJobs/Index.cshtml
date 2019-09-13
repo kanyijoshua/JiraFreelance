@@ -77,19 +77,20 @@
                     @if (User.IsInRole("Employer"))
                     {
                         <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.PkJobId">Details</a>
+                        <a class="btn btn-sm btn-primary" asp-controller="TblJobAttachments" asp-action="Create" asp-route-FkJob="@item.PkJobId">Add Attachment</a>
                         if (item.FkJobEmployer == _userManager.GetUserId(User))
                         {
                             <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.PkJobId">Edit</a>
                             <a class="btn btn-sm btn-primary" asp-action="Delete" asp-route-id="@item.PkJobId">Delete</a>
-                            if (item.JobStatus=="Granted")
+                            if (item.JobStatus == "Granted")
                             {
                                 <a class="btn btn-sm btn-primary" asp-action="Bidusers" asp-controller="TblBids" asp-route-jobid="@item.PkJobId">Change Bidder</a>
                             }
                             else
                             {
-                               <a class="btn btn-sm btn-primary" asp-action="Bidusers" asp-controller="TblBids" asp-route-jobid="@item.PkJobId">View Bidders</a>     
+                                <a class="btn btn-sm btn-primary" asp-action="Bidusers" asp-controller="TblBids" asp-route-jobid="@item.PkJobId">View Bidders</a>
                             }
-                            
+
                         }
 
                     }
@@ -97,7 +98,7 @@
                     {
                         if (item.TblBid.Any(x => x.FkBidUser == _userManager.GetUserId(User)))
                         {
-                            if (item.JobStatus=="Granted")
+                            if (item.JobStatus == "Granted")
                             {
                                 <button disabled="disabled" class="btn btn-sm btn-danger">Bid Granted</button>
                             }
@@ -105,11 +106,11 @@
                             {
                                 <button disabled="disabled" class="btn btn-sm btn-danger">Bidded</button>
                             }
-                            
+
                         }
                         else
                         {
-                            if (item.JobStatus=="Granted")
+                            if (item.JobStatus == "Granted")
                             {
                                 <button disabled="disabled" class="btn btn-sm btn-danger">Bid Granted</button>
                             }

@@ -487,17 +487,17 @@ namespace jirafrelance.Models
                 entity.Property(e => e.JobAttachmentDownloadName)
                     .IsRequired()
                     .HasColumnName("job_attachment_download_name")
-                    .HasMaxLength(100);
+                    .HasMaxLength(300);
 
                 entity.Property(e => e.JobAttachmentFileName)
                     .IsRequired()
                     .HasColumnName("job_attachment_file_name")
-                    .HasMaxLength(100);
+                    .HasMaxLength(300);
 
                 entity.Property(e => e.JobAttachmentFilePath)
                     .IsRequired()
                     .HasColumnName("job_attachment_file_path")
-                    .HasMaxLength(20);
+                    .HasMaxLength(500);
 
                 entity.HasOne(d => d.FkAttachmentJobNavigation)
                     .WithMany(p => p.TblJobAttachment)

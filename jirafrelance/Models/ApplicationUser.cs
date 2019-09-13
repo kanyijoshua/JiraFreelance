@@ -45,6 +45,5 @@ namespace jirafrelance.Models
         public virtual ICollection<TblJob> TblJob { get; set; }
         //[ForeignKey("")]
         public virtual ICollection<TblProfile> TblProfile { get; set; }
-
     }
 }

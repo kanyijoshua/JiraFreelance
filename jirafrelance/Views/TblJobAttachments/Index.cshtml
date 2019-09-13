@@ -1,0 +1,54 @@
+﻿@model IEnumerable<jirafrelance.Models.TblJobAttachment>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.JobAttachmentFilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobAttachmentFileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobAttachmentDownloadName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FkAttachmentJobNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobAttachmentFilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobAttachmentFileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobAttachmentDownloadName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkAttachmentJobNavigation.JobBudget)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PkJobAttachmentId" asp-route-jobid="@item.FkAttachmentJob">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PkJobAttachmentId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PkJobAttachmentId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
