@@ -1,0 +1,48 @@
+﻿@model IEnumerable<jirafrelance.Models.TblDepositDeduction>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositDeductionDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepositDeductionAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FkDepositDeductionHistoryNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepositDeductionDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepositDeductionAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkDepositDeductionHistoryNavigation.DepositAmount)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PkDepositDeductionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PkDepositDeductionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PkDepositDeductionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

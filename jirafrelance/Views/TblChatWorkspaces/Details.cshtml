@@ -1,0 +1,61 @@
+﻿@model jirafrelance.Models.TblChatWorkspace
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TblChatWorkspace</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspChatMessage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspChatMessage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspChatTimeSent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspChatTimeSent)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspChatSender)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspChatSender)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspChatStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspChatStatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspChatTimeRead)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspChatTimeRead)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FkWkspChatUserNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FkWkspChatUserNavigation.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FkWkspChatWorkspaceNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FkWkspChatWorkspaceNavigation.WkspcAmountAgreed)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PkWkspChatId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

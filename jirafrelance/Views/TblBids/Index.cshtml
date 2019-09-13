@@ -1,0 +1,66 @@
+﻿@model IEnumerable<jirafrelance.Models.TblBid>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Bids</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BidTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BidAwardTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BidOfferInformation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BidStatus)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.FkBidUserNavigation)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.FkJobBiddedNavigation.JobBudget)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BidTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BidAwardTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BidOfferInformation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BidStatus)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.FkBidUserNavigation.Id)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.FkJobBiddedNavigation.JobBudget)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PkBidId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PkBidId">Details</a> |
+                @*<a asp-action="Delete" asp-route-id="@item.PkBidId">Delete</a>*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

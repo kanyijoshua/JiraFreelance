@@ -1,0 +1,56 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+    <ul class="navbar-nav">
+        @if (SignInManager.IsSignedIn(User))
+        {
+        <li class="nav-item">
+            @{
+                var userrole ="";
+                @foreach (var rolesname in (IEnumerable<dynamic>)ViewData["applicationRoles"])
+                {
+                    @if (User.IsInRole(rolesname.ToString()))
+                    {
+                        userrole = rolesname.ToString();
+                    }
+                    else
+                    if(User.IsInRole("Admin")){
+                        userrole = "Admin";
+                    }
+                }
+            }
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name<small style="margin-left:4px;background-color:red;border-radius:2px">(@userrole)</small></a>
+        </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        }
+        else
+        {
+            @if (ViewData["applicationRoles"] != null)
+            {
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Register<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+
+                        @foreach (var rolesname in (IEnumerable<dynamic>)ViewData["applicationRoles"])
+                        {
+                            <li><a asp-area="Identity" asp-page="/Account/Register" asp-route-roles="@rolesname">As @rolesname</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                </li>
+            }
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                </li>
+                }
+            </ul>

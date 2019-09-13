@@ -1,0 +1,55 @@
+﻿@model jirafrelance.Models.TblChatDirect
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>TblChatDirect</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FkDirectChatEmployer" class="control-label"></label>
+                <select asp-for="FkDirectChatEmployer" class ="form-control" asp-items="ViewBag.FkDirectChatEmployer"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DirectChatMessage" class="control-label"></label>
+                <input asp-for="DirectChatMessage" class="form-control" />
+                <span asp-validation-for="DirectChatMessage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DirectChatTimeSent" class="control-label"></label>
+                <input asp-for="DirectChatTimeSent" class="form-control" />
+                <span asp-validation-for="DirectChatTimeSent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DirectChatSender" class="control-label"></label>
+                <input asp-for="DirectChatSender" class="form-control" />
+                <span asp-validation-for="DirectChatSender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DirectChatStatus" class="control-label"></label>
+                <input asp-for="DirectChatStatus" class="form-control" />
+                <span asp-validation-for="DirectChatStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DirectChatTimeRead" class="control-label"></label>
+                <input asp-for="DirectChatTimeRead" class="form-control" />
+                <span asp-validation-for="DirectChatTimeRead" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

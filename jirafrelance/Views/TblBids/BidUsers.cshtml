@@ -1,0 +1,48 @@
+﻿@model IEnumerable<jirafrelance.Models.TblBid>
+@inject UserManager<ApplicationUser> userManager;
+    @{
+        ViewData["Title"] = "BidUsers";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h1>Biders</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>FreeLancers</th>
+                <th></th>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @item.FkBidUserNavigation.UserName
+                </td>
+                <td><a class="btn btn-sm btn-primary">View Freelancer's profile</a></td>
+                @if (item.BidStatus == "Granted" || item.FkJobBiddedNavigation.JobStatus == "Granted")
+                {    
+                    <td>
+                    @if (item.BidStatus == "Granted")
+                    {
+                        <a asp-controller="TblBids" asp-action="Grantbid"  asp-route-PkBidId="@item.PkBidId" asp-route-grantstate="ungrant" class="btn btn-sm btn-primary">Ungrant job</a>
+                    }
+                    else
+                    {
+                        <p style="color: green;align-items: center;">bid granted</p>
+                    }
+                    </td>
+                    
+                }
+                else
+                {
+                    <td><a asp-controller="TblBids" asp-action="Grantbid" asp-route-grantstate="grant" asp-route-PkBidId="@item.PkBidId" class="btn btn-sm btn-primary">Grant job</a></td>
+                }
+                
+            </tr>
+            }
+        </tbody>
+    </table>

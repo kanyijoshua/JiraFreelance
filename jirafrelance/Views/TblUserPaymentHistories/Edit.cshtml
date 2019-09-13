@@ -1,0 +1,62 @@
+﻿@model jirafrelance.Models.TblUserPaymentHistory
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>TblUserPaymentHistory</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PkPayId" />
+            <div class="form-group">
+                <label asp-for="FkWorkspacePay" class="control-label"></label>
+                <select asp-for="FkWorkspacePay" class="form-control" asp-items="ViewBag.FkWorkspacePay"></select>
+                <span asp-validation-for="FkWorkspacePay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PayDescription" class="control-label"></label>
+                <input asp-for="PayDescription" class="form-control" />
+                <span asp-validation-for="PayDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PayAmount" class="control-label"></label>
+                <input asp-for="PayAmount" class="form-control" />
+                <span asp-validation-for="PayAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PayBalance" class="control-label"></label>
+                <input asp-for="PayBalance" class="form-control" />
+                <span asp-validation-for="PayBalance" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PayDate" class="control-label"></label>
+                <input asp-for="PayDate" class="form-control" />
+                <span asp-validation-for="PayDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PayDeductions" class="control-label"></label>
+                <input asp-for="PayDeductions" class="form-control" />
+                <span asp-validation-for="PayDeductions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinalPay" class="control-label"></label>
+                <input asp-for="FinalPay" class="form-control" />
+                <span asp-validation-for="FinalPay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

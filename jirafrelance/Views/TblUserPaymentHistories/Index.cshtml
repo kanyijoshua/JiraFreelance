@@ -1,0 +1,72 @@
+﻿@model IEnumerable<jirafrelance.Models.TblUserPaymentHistory>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PayDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayBalance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayDeductions)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FinalPay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FkWorkspacePayNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayBalance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayDeductions)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FinalPay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkWorkspacePayNavigation.WkspcAmountAgreed)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PkPayId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PkPayId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PkPayId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

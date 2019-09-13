@@ -1,0 +1,72 @@
+﻿@model IEnumerable<jirafrelance.Models.TblChatWorkspace>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspChatMessage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspChatTimeSent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspChatSender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspChatStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspChatTimeRead)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FkWkspChatUserNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FkWkspChatWorkspaceNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspChatMessage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspChatTimeSent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspChatSender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspChatStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspChatTimeRead)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkWkspChatUserNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkWkspChatWorkspaceNavigation.WkspcAmountAgreed)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PkWkspChatId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PkWkspChatId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PkWkspChatId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

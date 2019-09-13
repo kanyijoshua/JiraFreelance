@@ -1,0 +1,91 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using jirafrelance.Data
+@inject JiraContext _context
+@using System.Linq
+@using Microsoft.EntityFrameworkCore
+@inject RoleManager<IdentityRole> roleManagers;
+
+
+    @{
+        if (await roleManagers.RoleExistsAsync("Admin") == false)
+        {
+            IdentityResult Teacher = await roleManagers
+                 .CreateAsync(new IdentityRole
+                 {
+                     Name = "Admin",
+                 });
+        }
+
+        if (await roleManagers.RoleExistsAsync("Employer") == false)
+        {
+            IdentityResult Employer = await roleManagers
+             .CreateAsync(new IdentityRole
+             {
+                 Name = "Employer",
+             });
+        }
+
+        if (await roleManagers.RoleExistsAsync("Freelancer") == false)
+        {
+
+            IdentityResult Freelancer = await roleManagers
+             .CreateAsync(new IdentityRole
+             {
+                 Name = "Freelancer",
+             });
+        }
+        if (await roleManagers.RoleExistsAsync("Support") == false)
+        {
+
+            IdentityResult Support = await roleManagers
+             .CreateAsync(new IdentityRole
+             {
+                 Name = "Support",
+             });
+        }
+        if (SignInManager.IsSignedIn(User))
+        {
+
+            ViewData["applicationRoles"] = roleManagers.Roles.Where(x=>x.Name!="Admin");
+
+            if (User.IsInRole("Admin"))
+            {
+                Layout = "_Layout";
+            }
+
+
+            else if (User.IsInRole("Employer"))
+            {
+                Layout = "_Layout";
+            }
+            else if (User.IsInRole("Freelancer"))
+            {
+                Layout = "_Layout";
+            }
+            else if (User.IsInRole("Support"))
+            {
+                Layout = "_Layout";
+            }
+
+            //else
+            //{
+            //    Layout = "_LoggedOut";
+            //}
+
+
+        }
+        else
+        {
+            Layout = "_Layout";
+            ViewData["applicationRoles"] = roleManagers.Roles.Where(x=>x.Name!="Admin");
+
+        }
+
+    }
+
+
+
+@{
+        Layout = "_Layout";
+    }

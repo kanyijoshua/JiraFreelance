@@ -1,0 +1,130 @@
+﻿@model IEnumerable<jirafrelance.Models.TblJob>
+@inject RoleManager<IdentityRole> roleManagers;
+@inject UserManager<ApplicationUser> _userManager;
+
+@{
+    ViewData["Title"] = "Jobs";
+    if (User.IsInRole("Admin"))
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+}
+
+<h1>Jobs</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.JobTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobBudget)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobDuration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobStatus)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.FkJobEmployerNavigation)*@
+                JobEmployer
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobBudget)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobDuration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FkJobEmployerNavigation.UserName)
+                </td>
+                <td>
+                    @if (User.IsInRole("Employer"))
+                    {
+                        <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.PkJobId">Details</a>
+                        if (item.FkJobEmployer == _userManager.GetUserId(User))
+                        {
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.PkJobId">Edit</a>
+                            <a class="btn btn-sm btn-primary" asp-action="Delete" asp-route-id="@item.PkJobId">Delete</a>
+                            if (item.JobStatus=="Granted")
+                            {
+                                <a class="btn btn-sm btn-primary" asp-action="Bidusers" asp-controller="TblBids" asp-route-jobid="@item.PkJobId">Change Bidder</a>
+                            }
+                            else
+                            {
+                               <a class="btn btn-sm btn-primary" asp-action="Bidusers" asp-controller="TblBids" asp-route-jobid="@item.PkJobId">View Bidders</a>     
+                            }
+                            
+                        }
+
+                    }
+                    else if (User.IsInRole("Freelancer"))
+                    {
+                        if (item.TblBid.Any(x => x.FkBidUser == _userManager.GetUserId(User)))
+                        {
+                            if (item.JobStatus=="Granted")
+                            {
+                                <button disabled="disabled" class="btn btn-sm btn-danger">Bid Granted</button>
+                            }
+                            else
+                            {
+                                <button disabled="disabled" class="btn btn-sm btn-danger">Bidded</button>
+                            }
+                            
+                        }
+                        else
+                        {
+                            if (item.JobStatus=="Granted")
+                            {
+                                <button disabled="disabled" class="btn btn-sm btn-danger">Bid Granted</button>
+                            }
+                            else
+                            {
+                                <a class="btn btn-sm btn-primary" asp-controller="TblBids" asp-action="Create" asp-route-jobId="@item.PkJobId">Bid</a>
+                            }
+                        }
+
+                    }
+                    @*<a asp-action="Edit" asp-route-id="@item.PkJobId">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.PkJobId">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.PkJobId">Delete</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

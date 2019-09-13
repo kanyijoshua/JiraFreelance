@@ -1,0 +1,58 @@
+﻿@model jirafrelance.Models.TblBid
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>TblBid</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-route-tojob="@ViewBag.tojob">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="FkJobBidded" value="@ViewBag.JobId" required/>
+                @*<label asp-for="FkJobBidded" class="control-label"></label>
+                <select asp-for="FkJobBidded" class ="form-control" asp-items="ViewBag.FkJobBidded"></select>*@
+            </div>
+            @*<div class="form-group">
+                <label asp-for="BidTime" class="control-label"></label>
+                <input asp-for="BidTime" class="form-control" />
+                <span asp-validation-for="BidTime" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+                <label asp-for="BidAwardTime" class="control-label"></label>
+                <input asp-for="BidAwardTime" class="form-control" />
+                <span asp-validation-for="BidAwardTime" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+                <label asp-for="FkBidUser" class="control-label"></label>
+                <select asp-for="FkBidUser" class ="form-control" asp-items="ViewBag.FkBidUser"></select>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="BidOfferInformation" class="control-label"></label>
+                <textarea rows="4" cols="50" asp-for="BidOfferInformation" class="form-control"></textarea>
+                <span asp-validation-for="BidOfferInformation" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="BidStatus" class="control-label"></label>
+                <input asp-for="BidStatus" class="form-control" />
+                <span asp-validation-for="BidStatus" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="TblJobs">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
