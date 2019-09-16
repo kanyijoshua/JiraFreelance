@@ -11,8 +11,8 @@
         <thead>
             <tr>
                 <th>FreeLancers</th>
-                <th></th>
-                <td></td>
+                <th>View kills</th>
+                <td style="font-weight:bold ">Grant/Ungrant</td> 
             </tr>
         </thead>
         <tbody>
@@ -22,19 +22,24 @@
                 <td>
                     @item.FkBidUserNavigation.UserName
                 </td>
-                <td><a class="btn btn-sm btn-primary">View Freelancer's profile</a></td>
+                <td><a class="btn btn-sm btn-primary" asp-action="Index" asp-route-id="@item.FkBidUserNavigation.Id" asp-controller="TblUserSkills">View Skills</a></td>
                 @if (item.BidStatus == "Granted" || item.FkJobBiddedNavigation.JobStatus == "Granted")
-                {    
-                    <td>
+                {  
                     @if (item.BidStatus == "Granted")
                     {
-                        <a asp-controller="TblBids" asp-action="Grantbid"  asp-route-PkBidId="@item.PkBidId" asp-route-grantstate="ungrant" class="btn btn-sm btn-primary">Ungrant job</a>
+                        <td>
+                            <a asp-controller="TblBids" asp-action="Grantbid"  asp-route-PkBidId="@item.PkBidId" asp-route-grantstate="ungrant" class="btn btn-sm btn-primary">Ungrant job</a>
+                        </td>
+                        <td><a asp-controller="Massages" asp-action="Index"  asp-route-id="@item.FkBidUser" class="btn btn-sm btn-primary">Direct Chat</a>
+                            <a asp-controller="Massages" asp-action="Create"  asp-route-RecepietId="@item.FkBidUser" asp-route-jbId="@item.FkJobBidded" class="btn btn-sm btn-primary">Send Message</a>
+                        </td>
                     }
                     else
                     {
-                        <p style="color: green;align-items: center;">bid granted</p>
+                        <td>
+                            <button disabled="disabled" class="btn btn-sm btn-danger">bid granted</button>
+                        </td>
                     }
-                    </td>
                     
                 }
                 else

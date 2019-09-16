@@ -14,6 +14,7 @@ using jirafrelance.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using jirafrelance.Models;
+using jirafrelance.Hubs;
 
 namespace jirafrelance
 {
@@ -42,6 +43,7 @@ namespace jirafrelance
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<JiraContext>();
+            services.AddSignalR();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication();
@@ -67,6 +69,10 @@ namespace jirafrelance
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+            app.UseSignalR(route =>
+            {
+                route.MapHub<ChatHub>("/workspace/chat");
+            });
 
             app.UseMvc(routes =>
             {

@@ -15,33 +15,34 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PkBidId" />
             <div class="form-group">
-                <label asp-for="FkJobBidded" class="control-label"></label>
+                <input type="hidden" asp-for="FkJobBidded" value="@ViewBag.JobId" required/>
+                @*label asp-for="FkJobBidded" class="control-label"></label>
                 <select asp-for="FkJobBidded" class="form-control" asp-items="ViewBag.FkJobBidded"></select>
-                <span asp-validation-for="FkJobBidded" class="text-danger"></span>
+                <span asp-validation-for="FkJobBidded" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="BidTime" class="control-label"></label>
-                <input asp-for="BidTime" class="form-control" />
-                <span asp-validation-for="BidTime" class="text-danger"></span>
+                <input asp-for="BidTime" type="hidden" value="@ViewBag.BidTime" class="form-control" />
+                @*<label asp-for="BidTime" class="control-label"></label>
+                <span asp-validation-for="BidTime" class="text-danger"></span>*@
             </div>
             <div class="form-group">
-                <label asp-for="BidAwardTime" class="control-label"></label>
-                <input asp-for="BidAwardTime" class="form-control" />
-                <span asp-validation-for="BidAwardTime" class="text-danger"></span>
+                @*<label asp-for="BidAwardTime" class="control-label"></label>*@
+                <input asp-for="BidAwardTime" class="form-control" type="hidden" value="@ViewBag.BidAwardTime"/>
+                @*<span asp-validation-for="BidAwardTime" class="text-danger"></span>*@
             </div>
-            <div class="form-group">
-                <label asp-for="FkBidUser" class="control-label"></label>
-                <select asp-for="FkBidUser" class="form-control" asp-items="ViewBag.FkBidUser"></select>
-                <span asp-validation-for="FkBidUser" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                <label asp-for="FkBidUser" class="control-label"></label>*@
+                <input type="hidden" asp-for="FkBidUser" class="form-control" value="@ViewBag.FkBidUser"/>
+                @*<span asp-validation-for="FkBidUser" class="text-danger"></span>
+            </div>*@
             <div class="form-group">
                 <label asp-for="BidOfferInformation" class="control-label"></label>
-                <input asp-for="BidOfferInformation" class="form-control" />
+                <textarea asp-for="BidOfferInformation" class="form-control" ></textarea>
                 <span asp-validation-for="BidOfferInformation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BidStatus" class="control-label"></label>
-                <input asp-for="BidStatus" class="form-control" />
+                <input type="hidden" asp-for="BidStatus" value="@ViewBag.BidStatus" class="form-control" />
                 <span asp-validation-for="BidStatus" class="text-danger"></span>
             </div>
             <div class="form-group">

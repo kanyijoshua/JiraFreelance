@@ -36,18 +36,18 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BidStatus)
         </dd>
-        <dt class = "col-sm-2">
+        @*<dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FkBidUserNavigation)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FkBidUserNavigation.Id)
-        </dd class>
+        </dd >*@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.FkJobBiddedNavigation)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FkJobBiddedNavigation.JobBudget)
-        </dd class>
+        </dd >
     </dl>
     
     <form asp-action="Delete">

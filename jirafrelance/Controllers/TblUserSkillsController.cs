@@ -6,22 +6,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using jirafrelance.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace jirafrelance.Controllers
 {
     public class TblUserSkillsController : Controller
     {
         private readonly JiraContext _context;
+        private readonly UserManager<ApplicationUser> _usermanager;
 
-        public TblUserSkillsController(JiraContext context)
+        public TblUserSkillsController(JiraContext context,UserManager<ApplicationUser>userManager)
         {
             _context = context;
+            _usermanager = userManager;
         }
-
+        [Authorize(Roles = "Admin,Freelancer,Employer")]
         // GET: TblUserSkills
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string id)
         {
-            var jiraContext = _context.TblUserSkill.Include(t => t.FkSkillUser);
+            IQueryable<TblUserSkill> jiraContext = _context.TblUserSkill.Include(t => t.FkSkillUser);
+            if (!string.IsNullOrEmpty(id))
+            {
+                jiraContext = jiraContext.Where(x => x.FkSkillUser.Id == id)
+                .Select(z => new TblUserSkill { UserSkillName = z.UserSkillName, FkSkillUserId = z.FkSkillUser.UserName });
+            }
+            if (User.IsInRole("Freelancer"))
+            {
+                jiraContext = jiraContext.Where(x => x.FkSkillUserId == _usermanager.GetUserId(User))
+                .Select(z => new TblUserSkill { UserSkillName = z.UserSkillName, FkSkillUserId = z.FkSkillUser.UserName,PkSkillId = z.PkSkillId});
+            }
             return View(await jiraContext.ToListAsync());
         }
 
@@ -56,8 +70,10 @@ namespace jirafrelance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PkSkillId,FkSkillUserId,UserSkillName")] TblUserSkill tblUserSkill)
+        [Authorize(Roles ="Freelancer")]
+        public async Task<IActionResult> Create([Bind("PkSkillId,UserSkillName")] TblUserSkill tblUserSkill)
         {
+            tblUserSkill.FkSkillUserId = _usermanager.GetUserId(User);
             if (ModelState.IsValid)
             {
                 _context.Add(tblUserSkill);
@@ -68,7 +84,8 @@ namespace jirafrelance.Controllers
             return View(tblUserSkill);
         }
 
-        // GET: TblUserSkills/Edit/5
+        // GET: TblUserSkills/Edit/
+        [Authorize(Roles = "Freelancer")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,13 +107,15 @@ namespace jirafrelance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PkSkillId,FkSkillUserId,UserSkillName")] TblUserSkill tblUserSkill)
+        [Authorize(Roles = "Freelancer")]
+        public async Task<IActionResult> Edit(int id, [Bind("PkSkillId,UserSkillName")] TblUserSkill tblUserSkill)
         {
             if (id != tblUserSkill.PkSkillId)
             {
                 return NotFound();
             }
 
+            tblUserSkill.FkSkillUserId = _usermanager.GetUserId(User);
             if (ModelState.IsValid)
             {
                 try

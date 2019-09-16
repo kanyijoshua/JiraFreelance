@@ -24,7 +24,7 @@ namespace jirafrelance.Controllers
 
         //[Route(Name ="dd")]
         // GET: TblBids
-        public async Task<IActionResult> Index(int? JobBidded)
+        public async Task<IActionResult> Index(int? JobBidded, string bidstatus)
         {
             IQueryable<TblBid> jiraContextdb = _context.TblBid.Include(t => t.FkBidUserNavigation).Include(t => t.FkJobBiddedNavigation);
             if (User.IsInRole("Employer"))
@@ -33,7 +33,23 @@ namespace jirafrelance.Controllers
             }
             if (User.IsInRole("Freelancer"))
             {
-                jiraContextdb = jiraContextdb.Where(z => z.FkBidUserNavigation.Id == _userManager.GetUserId(User));
+                var bidfilter = bidstatus ?? "Active";
+                ViewBag.bidfilter = bidfilter;
+                jiraContextdb = jiraContextdb.Where(z => z.FkBidUserNavigation.Id == _userManager.GetUserId(User)).Where(x=>x.BidStatus==bidfilter);
+            }
+            return View(await jiraContextdb.ToListAsync());
+        }
+
+        public async Task<IActionResult> Workspace(int? JobBidded)
+        {
+            IQueryable<TblBid> jiraContextdb = _context.TblBid.Include(t => t.FkBidUserNavigation).Include(t => t.FkJobBiddedNavigation);
+            if (User.IsInRole("Employer"))
+            {
+                jiraContextdb = jiraContextdb.Where(z => z.FkJobBidded == JobBidded);
+            }
+            if (User.IsInRole("Freelancer"))
+            {
+                jiraContextdb = jiraContextdb.Where(z => z.FkBidUserNavigation.Id == _userManager.GetUserId(User)).Where(x => x.BidStatus == "Granted");
             }
             return View(await jiraContextdb.ToListAsync());
         }
@@ -116,6 +132,11 @@ namespace jirafrelance.Controllers
             }
 
             var tblBid = await _context.TblBid.FindAsync(id);
+            ViewBag.JobId = tblBid.FkJobBidded;
+            ViewBag.BidTime = tblBid.BidTime;
+            ViewBag.BidAwardTime = tblBid.BidAwardTime;
+            ViewBag.FkBidUser = tblBid.FkBidUser;
+            ViewBag.BidStatus = tblBid.BidStatus;
             if (tblBid == null)
             {
                 return NotFound();

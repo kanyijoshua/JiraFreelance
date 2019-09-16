@@ -196,6 +196,29 @@ namespace jirafrelance.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("jirafrelance.Models.Massage", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("created_at");
+
+                    b.Property<string>("message");
+
+                    b.Property<string>("reciever_id");
+
+                    b.Property<string>("sender_id");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("reciever_id");
+
+                    b.HasIndex("sender_id");
+
+                    b.ToTable("tbl_massages");
+                });
+
             modelBuilder.Entity("jirafrelance.Models.TblBid", b =>
                 {
                     b.Property<int>("PkBidId")
@@ -993,6 +1016,18 @@ namespace jirafrelance.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("jirafrelance.Models.Massage", b =>
+                {
+                    b.HasOne("jirafrelance.Models.ApplicationUser", "FkReciever")
+                        .WithMany()
+                        .HasForeignKey("reciever_id");
+
+                    b.HasOne("jirafrelance.Models.ApplicationUser", "FkSender")
+                        .WithMany("massages")
+                        .HasForeignKey("sender_id")
+                        .HasConstraintName("FK__tbl_mass__fk_se__6477ECF3");
                 });
 
             modelBuilder.Entity("jirafrelance.Models.TblBid", b =>

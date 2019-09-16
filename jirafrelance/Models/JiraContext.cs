@@ -35,6 +35,7 @@ namespace jirafrelance.Models
         public virtual DbSet<TblUserPaymentHistory> TblUserPaymentHistory { get; set; }
         public virtual DbSet<TblUserSkill> TblUserSkill { get; set; }
         public virtual DbSet<TblWorkspace> TblWorkspace { get; set; }
+        public virtual DbSet<Massage> Message { get; set; }
 
 //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //        {
@@ -725,6 +726,38 @@ namespace jirafrelance.Models
                     .HasForeignKey(d => d.FkSkillUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__tbl_user___fk_sk__6E01572D");
+            });
+
+            modelBuilder.Entity<Massage>(entity =>
+            {
+                entity.HasKey(e => e.MessageId);
+
+                entity.ToTable("tbl_massages");
+
+                //entity.Property(e => e.PkDepositDeductionId).HasColumnName("pk_deposit_deduction_id");
+
+                //entity.Property(e => e.DepositDeductionAmount)
+                //    .IsRequired()
+                //    .HasColumnName("deposit_deduction_amount")
+                //    .HasMaxLength(20);
+
+                //entity.Property(e => e.DepositDeductionDescription)
+                //    .HasColumnName("deposit_deduction_description")
+                //    .HasColumnType("text");
+
+                //entity.Property(e => e.FkDepositDeductionHistory).HasColumnName("fk_deposit_deduction_history");
+
+                entity.HasOne<ApplicationUser>(d => d.FkSender)
+                    .WithMany(p => p.massages)
+                    .HasForeignKey(d => d.sender_id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__tbl_mass__fk_se__6477ECF3");
+
+                //entity.HasOne<ApplicationUser>(d => d.FkReciever)
+                //    .WithMany(p => p.massages)
+                //    .HasForeignKey(d => d.reciever_id)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK__tbl_mass__fk_re__6477ECF3");
             });
 
             modelBuilder.Entity<TblWorkspace>(entity =>

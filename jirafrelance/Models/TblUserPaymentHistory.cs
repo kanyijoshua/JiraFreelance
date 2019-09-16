@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace jirafrelance.Models
 {
@@ -9,7 +10,7 @@ namespace jirafrelance.Models
         {
             TblPaymentDeduction = new HashSet<TblPaymentDeduction>();
         }
-
+        [Key]
         public int PkPayId { get; set; }
         public int FkWorkspacePay { get; set; }
         public string PayDescription { get; set; }

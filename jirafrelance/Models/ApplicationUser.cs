@@ -20,6 +20,7 @@ namespace jirafrelance.Models
             TblEmployerCompany = new HashSet<TblEmployerCompany>();
             TblEmployerDepositHistory = new HashSet<TblEmployerDepositHistory>();
             TblJob = new HashSet<TblJob>();
+            massages = new HashSet<Massage>();
         }
         public enum Gender
         {
@@ -45,5 +46,6 @@ namespace jirafrelance.Models
         public virtual ICollection<TblJob> TblJob { get; set; }
         //[ForeignKey("")]
         public virtual ICollection<TblProfile> TblProfile { get; set; }
+        public virtual ICollection<Massage> massages { get; set; }
     }
 }

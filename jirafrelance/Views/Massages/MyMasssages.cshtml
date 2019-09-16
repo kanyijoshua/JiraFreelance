@@ -1,0 +1,49 @@
+@model IEnumerable<jirafrelance.Models.Massage>
+
+@{
+    ViewBag.Title = "My massages";
+    Layout = "_Layout";
+}
+
+<h2>My Massages</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.message)
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.created_at)*@
+                Date Sent
+            </th>
+            <th>
+                Sender@*@Html.DisplayNameFor(model => model.FkSender.UserName)*@
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.created_at)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkSender.UserName)
+            </td>
+            <td>
+                <a asp-action="Create" asp-route-RecepietId="@item.FkSender.Id">Reply</a> 
+            </td>
+            @*@if (item.FkSender.Id == UserManager.GetUserId(User))
+            {*@
+            <td>
+                <a asp-action="Index" asp-route-id="@item.FkSender.Id">View Chat</a>
+            </td>
+            @*}*@
+        </tr>
+}
+    </tbody>
+</table>
