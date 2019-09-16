@@ -1,0 +1,78 @@
+﻿@model IEnumerable<jirafrelance.Models.TblWorkspace>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@ViewBag.bidid">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspcStartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspcExpectendEndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspcActualEndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspcRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspcStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspcFeedback)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WkspcAmountAgreed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FkWkspcB)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspcStartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspcExpectendEndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspcActualEndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspcRating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspcStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspcFeedback)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WkspcAmountAgreed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FkWkspcB.BidOfferInformation)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PkWkspcId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PkWkspcId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PkWkspcId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

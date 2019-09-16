@@ -23,65 +23,68 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-color: forestgreen!important;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-color: #156504!important;color: white!important;">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Ajira Jiajiri</a>
+                    
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color: white!important;">
+                    <img src="images/AJRA NOW.PNG" width="50" height="50" style="margin-right:4px;margin-bottom:5px"/>
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
+                    <partial name="_LoginPartial"/>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" style="color: white!important;">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy" style="color: white!important;">Privacy</a>
                         </li>
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TblJobs" asp-action="Index">Jobs</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TblJobs" asp-action="Index" style="color: white!important;">Jobs</a>
                             </li>
                         }
                         else if (User.IsInRole("Employer"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TblJobs" asp-action="Index">Jobs</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TblJobs" asp-action="Index" style="color: white!important;">Jobs</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TblWorkspaces" asp-action="Workspace">WorkSpace progress</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TblWorkspaces" asp-action="Workspace" style="color: white!important;">WorkSpace progress</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TblUserPaymentHistories" asp-action="Index">Payments</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TblUserPaymentHistories" asp-action="Index" style="color: white!important;">Payments</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Massages" asp-action="MyMasssages">Massages</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Massages" asp-action="MyMasssages" style="color: white!important;">Massages</a>
                             </li>
                         }
                         else if (User.IsInRole("Freelancer"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TblJobs" asp-action="Index">Jobs</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TblJobs" asp-action="Index" style="color: white!important;">Jobs</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TblBids" asp-action="Index">Bids</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TblBids" asp-action="Index" style="color: white!important;">Bids</a>
                             </li>
                             @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="TblWorkspaces" asp-action="Index">WorkSpace</a>
                             </li>*@
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TblUserPaymentHistories" asp-action="Index">Payments</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TblUserPaymentHistories" asp-action="Index" style="color: white!important;">Payments</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark"  asp-area="" asp-controller="Massages" asp-action="MyMasssages">Massages</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Massages" asp-action="MyMasssages" style="color: white!important;">Massages</a>
                             </li>
                         }
                         else if (User.IsInRole("Support"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="TblDisputes" asp-action="Index">Disputes</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="TblDisputes" asp-action="Index" style="color: white!important;">Disputes</a>
                             </li>
                         }
                         else

@@ -1,0 +1,67 @@
+﻿@model jirafrelance.Models.TblWorkspace
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TblWorkspace</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspcStartTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspcStartTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspcExpectendEndTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspcExpectendEndTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspcActualEndTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspcActualEndTime)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspcRating)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspcRating)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspcStatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspcStatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspcFeedback)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspcFeedback)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WkspcAmountAgreed)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WkspcAmountAgreed)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FkWkspcB)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FkWkspcB.BidOfferInformation)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PkWkspcId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

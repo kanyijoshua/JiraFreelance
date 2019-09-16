@@ -1,0 +1,50 @@
+﻿@model jirafrelance.Models.Massage
+@inject UserManager<ApplicationUser> usermanager
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Massage</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-route-bidstatus="@ViewBag.bidstatus" asp-route-bidpage="bidpage" asp-route-jbId="@ViewBag.jbId">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @*<input type="hidden" name="bidstatus" value="@ViewBag.bidstatus"/>
+                <input type="hidden" name="bidpage" value="bidpage"/>
+                <input type="hidden" name="jbId" value="@ViewBag.jbId"/>*@
+                @*<input type="hidden" asp-for="sender_id" required value="@UserManager.GetUserId(User)"/>*@
+                @*<label asp-for="sender_id" class="control-label"></label>
+                <select asp-for="sender_id" class="form-control" asp-items="ViewBag.sender_id"></select>*@
+            </div>
+            <div class="form-group">
+                <input type="hidden" required asp-for="reciever_id" value="@ViewBag.RecepietId"/>
+                @*<label asp-for="reciever_id" class="control-label"></label>
+                <select asp-for="reciever_id" class="form-control" asp-items="ViewBag.reciever_id"></select>*@
+            </div>
+            <div class="form-group">
+                <label asp-for="message" class="control-label"></label>
+                <textarea asp-for="message" class="form-control"  cols="120" rows="10"></textarea>
+                <span asp-validation-for="message" class="text-danger"></span>
+            </div>@*
+            <div class="form-group">
+                <label asp-for="created_at" class="control-label"></label>
+                <input asp-for="created_at" class="form-control" />
+                <span asp-validation-for="created_at" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Send" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

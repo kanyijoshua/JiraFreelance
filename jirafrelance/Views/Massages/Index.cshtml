@@ -1,0 +1,153 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<jirafrelance.Models.Massage>
+@inject UserManager<ApplicationUser> usermanager
+
+@{
+    ViewData["Title"] = "Massages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Massages</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<div class="row">
+    <div class="col-md-12">
+        <table class="table" id="chat-table">
+            <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.message)
+                </th>
+                <th>
+                    @*@Html.DisplayNameFor(model => model.created_at)*@
+                    Date sent
+                </th>
+                <th>
+                    Sender @*@Html.DisplayNameFor(model => model.FkSender.UserName)*@
+                </th>
+                <th>
+                    Recipent @*@Html.DisplayNameFor(model => model.FkReciever.UserName)*@
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.message)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.created_at)
+                    </td>
+                    <td>
+                        @if (item.FkSender.Id == UserManager.GetUserId(User))
+                        {
+                            <p>Me</p>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.FkSender.UserName)
+                        }
+                    </td>
+                    <td>
+                        @if (item.FkReciever != null)
+                        {
+                           @if (item.FkReciever.Id == UserManager.GetUserId(User))
+                               {
+                                   <p>Me</p>
+                               }
+                               else
+                               {
+                                   @Html.DisplayFor(modelItem => item.FkReciever.UserName)
+                               } 
+                        }
+                        else
+                        {
+                            <p></p>
+                        }
+                        
+                    </td>
+                    <td>
+                        @*<a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.MessageId">Details</a> |*@
+                        @if (item.sender_id == UserManager.GetUserId(User))
+                        {
+                            <a class="btn btn-primary btn-sm" asp-action="Delete" asp-route-id="@item.MessageId">Delete</a>
+                        }
+                            
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    @if (null != @ViewBag.sendToId)
+    {
+        <div class="col-md-12" style="display: inline; position: fixed;bottom: 25px;width: 70%;z-index:1;">
+            <form asp-action="sendMessage" method="post" id="chat-input-form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" required="required" value="@ViewBag.sendToId" name="reciever_id">
+                <div class="form-group">
+                    <input type="text" class="form-control" required="required" id="messagetext" name="message">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Send" id="submitbutton"  class="form-control btn btn-sm btn-info">
+                </div>
+            </form>
+        </div>
+    }
+    
+</div>
+
+@section Scripts
+{
+    <script>
+    var coonection = new signalR.HubConnectionBuilder()
+        .withUrl("/workspace/chat")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+    coonection.on("Recievemessages",function(msg) {
+          //console.log(msg)
+          if ("@UserManager.GetUserId(User)" === msg.sender_id || "@UserManager.GetUserId(User)"=== msg.reciever_id){
+              var sender = "@usermanager.GetUserId(User)"===msg.sender_id?"Me":msg.sendername;
+              var reciever = "@usermanager.GetUserId(User)"===msg.reciever_id?"Me":msg.recievername;
+              var delete_btn = msg.sender_id === "@usermanager.GetUserId(User)"?`<a class="btn btn-primary btn-sm" href="/Massages/Delete/${msg.messageId}">Delete</a>`:"";
+              var newrow =$('<tr><td> '+msg.message+ '</td> <td> '+msg.created_at+ '</td><td> '+sender+ '</td><td> '+reciever+ '</td><td>'+delete_btn+'<td></tr>');
+              $('#chat-table tbody').append(newrow)
+          } 
+        })
+    
+    coonection.start().catch(error=>{
+            console.log(error.massage)
+        })
+    
+    /*coonection.start().catch(error=>{
+        console.log(error.massage)
+    })*/
+    $("#chat-input-form").submit(function(e) {
+      e.preventDefault()
+      $.ajax({
+              url: this.action,
+              type: "POST",
+              data: new FormData(this),
+              contentType: false,
+              processData: false,
+              success: function (data) {
+                  if (data !="ok") {
+                      //console.log(data);
+                      coonection.invoke("SendMessage",data);
+                      alert("message sent")
+                  }
+                  if (data =="ok") {alert("error sending")}
+                  //console.log(data);
+              }
+          });
+    })
+    </script>
+}
+
+

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<jirafrelance.Models.TblBid>
+@inject UserManager<ApplicationUser> userManager;
+@{
+    ViewData["Title"] = "Workspace";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Workspace</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>FreeLancers</th>
+            <th></th>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.FkBidUserNavigation.UserName
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
