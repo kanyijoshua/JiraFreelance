@@ -6,22 +6,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using jirafrelance.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace jirafrelance.Controllers
 {
+    [Authorize(Roles = "Freelancer")]
     public class TblUserCertificationsController : Controller
     {
         private readonly JiraContext _context;
+        private readonly UserManager<ApplicationUser> _usermanager;
 
-        public TblUserCertificationsController(JiraContext context)
+        public TblUserCertificationsController(JiraContext context,UserManager<ApplicationUser>userManager)
         {
             _context = context;
+            _usermanager = userManager;
         }
 
         // GET: TblUserCertifications
         public async Task<IActionResult> Index()
         {
-            var jiraContext = _context.TblUserCertification.Include(t => t.FkCertificationUser);
+            var jiraContext = _context.TblUserCertification.Include(t => t.FkCertificationUser).Where(x=>x.FkCertificationUserId ==_usermanager.GetUserId(User));
             return View(await jiraContext.ToListAsync());
         }
 
@@ -56,8 +61,9 @@ namespace jirafrelance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PkCertificationId,FkCertificationUserId,CertificationName")] TblUserCertification tblUserCertification)
+        public async Task<IActionResult> Create([Bind("PkCertificationId,CertificationName")] TblUserCertification tblUserCertification)
         {
+            tblUserCertification.FkCertificationUserId = _usermanager.GetUserId(User);
             if (ModelState.IsValid)
             {
                 _context.Add(tblUserCertification);
@@ -90,13 +96,14 @@ namespace jirafrelance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PkCertificationId,FkCertificationUserId,CertificationName")] TblUserCertification tblUserCertification)
+        public async Task<IActionResult> Edit(int id, [Bind("PkCertificationId,CertificationName")] TblUserCertification tblUserCertification)
         {
             if (id != tblUserCertification.PkCertificationId)
             {
                 return NotFound();
             }
 
+            tblUserCertification.FkCertificationUserId = _usermanager.GetUserId(User);
             if (ModelState.IsValid)
             {
                 try

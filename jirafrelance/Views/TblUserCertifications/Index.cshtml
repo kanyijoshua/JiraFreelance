@@ -15,10 +15,10 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.CertificationName)
-            </th>
+            </th>@*
             <th>
                 @Html.DisplayNameFor(model => model.FkCertificationUser)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -28,9 +28,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CertificationName)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.FkCertificationUser.Id)
-            </td>
+            </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PkCertificationId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.PkCertificationId">Details</a> |

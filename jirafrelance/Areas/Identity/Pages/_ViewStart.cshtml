@@ -59,7 +59,7 @@
 
         //else if ( User.IsInRole("Employer") || User.IsInRole("Freelancer") || User.IsInRole("Support"))
         //{
-        Layout = "/Views/Shared/_Layout.cshtml";
+        Layout = "~/Views/Shared/_Layout.cshtml";
         //}
 
         //else
@@ -77,20 +77,20 @@
     }
     else
     {
-        Layout = "_Layout";
+        //Layout = "/Views/Shared/_Layout.cshtml";
         ViewData["applicationRoles"] = roleManagers.Roles.Where(x=>x.Name!="Admin");
-
+        Layout = "~/Views/Shared/_Layout.cshtml";
     }
 
 }
 
 
 
-@{
+@*@{
     Layout = "/Views/Shared/_Layout.cshtml";
-}
+}*@
 
 
-@{
+@*@{
     Layout = "/Views/Shared/_Layout.cshtml";
-}
+}*@
