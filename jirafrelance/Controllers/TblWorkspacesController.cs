@@ -48,9 +48,10 @@ namespace jirafrelance.Controllers
         }
 
         // GET: TblWorkspaces/Create
-        public IActionResult Create(int id)
+        public IActionResult Create(int id,int? PkBidId)
         {
             ViewBag.id = id;
+            ViewBag.PkBidId = PkBidId;
             ViewData["FkWkspcBid"] = new SelectList(_context.TblBid, "PkBidId", "BidOfferInformation");
             return View();
         }
@@ -60,13 +61,20 @@ namespace jirafrelance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Support")]
         public async Task<IActionResult> Create([Bind("PkWkspcId,FkWkspcBid,WkspcStartTime,WkspcExpectendEndTime,WkspcActualEndTime,WkspcRating,WkspcStatus,WkspcFeedback,WkspcAmountAgreed")] TblWorkspace tblWorkspace)
         {
+            var bidupdate = _context.TblBid.SingleOrDefault(x => x.PkBidId == tblWorkspace.FkWkspcBid);
+            var job_edit = _context.TblJob.SingleOrDefault(x => x.PkJobId== bidupdate.FkJobBidded);
             if (ModelState.IsValid)
             {
                 _context.Add(tblWorkspace);
+                bidupdate.BidStatus = "Granted";
+                bidupdate.BidAwardTime = DateTime.Now.ToString();
+                job_edit.JobStatus = "Granted";
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index),new {tblWorkspace.FkWkspcBid});
+                /*return RedirectToAction(nameof(Index),new {tblWorkspace.FkWkspcBid});*/
+                return RedirectToAction("Bidusers","TblBids");
             }
             ViewData["FkWkspcBid"] = new SelectList(_context.TblBid, "PkBidId", "BidOfferInformation", tblWorkspace.FkWkspcBid);
             return View(tblWorkspace);

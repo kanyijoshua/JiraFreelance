@@ -11,7 +11,12 @@
         <thead>
             <tr>
                 <th>FreeLancers</th>
-                <th>View kills</th>
+                <th>View FreeLancers kills</th>
+                @if (User.IsInRole("Support"))
+                {
+                    <th>Employer</th>
+                    <th>Job title</th>
+                }
                 <td style="font-weight:bold ">Grant/Ungrant</td> 
             </tr>
         </thead>
@@ -23,28 +28,53 @@
                     @item.FkBidUserNavigation.UserName
                 </td>
                 <td><a class="btn btn-sm btn-primary" asp-action="Index" asp-route-id="@item.FkBidUserNavigation.Id" asp-controller="TblUserSkills">View Skills</a></td>
+                @if (User.IsInRole("Support"))
+                {
+                   <td>
+                       @item.FkJobBiddedNavigation.FkJobEmployerNavigation.UserName
+                   </td> 
+                   <td>@item.FkJobBiddedNavigation.JobTitle</td>
+                }
+                
                 @if (item.BidStatus == "Granted" || item.FkJobBiddedNavigation.JobStatus == "Granted")
                 {  
                     @if (item.BidStatus == "Granted")
                     {
-                        <td>
-                            <a asp-controller="TblBids" asp-action="Grantbid"  asp-route-PkBidId="@item.PkBidId" asp-route-grantstate="ungrant" class="btn btn-sm btn-primary">Ungrant job</a>
-                        </td>
-                        <td><a asp-controller="Massages" asp-action="Index"  asp-route-id="@item.FkBidUser" class="btn btn-sm btn-primary">Direct Chat</a>
-                            <a asp-controller="Massages" asp-action="Create"  asp-route-RecepietId="@item.FkBidUser" asp-route-jbId="@item.FkJobBidded" class="btn btn-sm btn-primary">Send Message</a>
-                        </td>
+                        @if (User.IsInRole("Support"))
+                         {
+                            <td>
+                                <a asp-controller="TblBids" asp-action="Grantbid"  asp-route-PkBidId="@item.PkBidId" asp-route-grantstate="ungrant" class="btn btn-sm btn-primary">Ungrant job</a>
+                            </td> 
+                         }
+                        @if (User.IsInRole("Employer"))
+                         {
+                             <td>
+                                 <a asp-controller="TblBids" asp-action="Grantbid"  asp-route-PkBidId="@item.PkBidId" asp-route-grantstate="ungrant" class="btn btn-sm btn-primary">Request Change of Bidder</a>
+                             </td> 
+                             <td><a asp-controller="Massages" asp-action="Index"  asp-route-id="@item.FkBidUser" class="btn btn-sm btn-primary">Direct Chat</a>
+                                 <a asp-controller="Massages" asp-action="Create"  asp-route-RecepietId="@item.FkBidUser" asp-route-jbId="@item.FkJobBidded" class="btn btn-sm btn-primary">Send Message</a>
+                             </td>
+                         }
+                        
                     }
                     else
                     {
-                        <td>
-                            <button disabled="disabled" class="btn btn-sm btn-danger">bid granted</button>
-                        </td>
+                        @if (User.IsInRole("Support"))
+                         {
+                            <td>
+                                <button disabled="disabled" class="btn btn-sm btn-danger">bid granted</button>
+                            </td>
+                         }
                     }
                     
                 }
                 else
                 {
-                    <td><a asp-controller="TblBids" asp-action="Grantbid" asp-route-grantstate="grant" asp-route-PkBidId="@item.PkBidId" class="btn btn-sm btn-primary">Grant job</a></td>
+                    @if (User.IsInRole("Support"))
+                     {
+                         <td><a asp-controller="TblWorkspaces" asp-action="Create"  asp-route-PkBidId="@item.PkBidId" asp-route-grantstate="grant" asp-route-PkBidId="@item.PkBidId" class="btn btn-sm btn-primary">Grant job</a></td>
+                     }
+                    
                 }
                 
             </tr>

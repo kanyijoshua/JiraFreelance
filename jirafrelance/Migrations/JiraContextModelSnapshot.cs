@@ -228,7 +228,7 @@ namespace jirafrelance.Migrations
 
                     b.Property<string>("BidAwardTime")
                         .HasColumnName("bid_award_time")
-                        .HasMaxLength(20);
+                        .HasMaxLength(100);
 
                     b.Property<string>("BidOfferInformation")
                         .IsRequired()
@@ -934,19 +934,18 @@ namespace jirafrelance.Migrations
                     b.Property<int>("FkWkspcBid")
                         .HasColumnName("fk_wkspc_bid");
 
-                    b.Property<string>("WkspcActualEndTime")
-                        .HasColumnName("wkspc_actual_end_time")
-                        .HasMaxLength(20);
+                    b.Property<DateTime>("WkspcActualEndTime")
+                        .HasColumnName("wkspc_actual_endtime")
+                        .HasMaxLength(200);
 
                     b.Property<string>("WkspcAmountAgreed")
                         .IsRequired()
                         .HasColumnName("wkspc_amount_agreed")
                         .HasMaxLength(20);
 
-                    b.Property<string>("WkspcExpectendEndTime")
-                        .IsRequired()
-                        .HasColumnName("wkspc_expectend_end_time")
-                        .HasMaxLength(20);
+                    b.Property<DateTime>("WkspcExpectendEndTime")
+                        .HasColumnName("wkspc_expectend_endtime")
+                        .HasMaxLength(100);
 
                     b.Property<string>("WkspcFeedback")
                         .HasColumnName("wkspc_feedback")
@@ -956,10 +955,9 @@ namespace jirafrelance.Migrations
                         .HasColumnName("wkspc_rating")
                         .HasMaxLength(10);
 
-                    b.Property<string>("WkspcStartTime")
-                        .IsRequired()
-                        .HasColumnName("wkspc_start_time")
-                        .HasMaxLength(20);
+                    b.Property<DateTime>("WkspcStartTime")
+                        .HasColumnName("wkspc_starttime")
+                        .HasMaxLength(100);
 
                     b.Property<string>("WkspcStatus")
                         .IsRequired()

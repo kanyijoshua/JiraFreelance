@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace jirafrelance.Models
 {
@@ -14,9 +15,12 @@ namespace jirafrelance.Models
 
         public int PkWkspcId { get; set; }
         public int FkWkspcBid { get; set; }
-        public string WkspcStartTime { get; set; }
-        public string WkspcExpectendEndTime { get; set; }
-        public string WkspcActualEndTime { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime WkspcStartTime { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime WkspcExpectendEndTime { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime WkspcActualEndTime { get; set; }
         public string WkspcRating { get; set; }
         public string WkspcStatus { get; set; }
         public string WkspcFeedback { get; set; }

@@ -41,7 +41,7 @@ namespace jirafrelance.Controllers
             /*var sentTo = jiraContext.Where(x=>x.sender_id!=_usermanager.GetUserId(User)||x.reciever_id!=_usermanager.GetUserId(User)).Take(1).SingleOrDefault();
             var sendToId = sentTo.reciever_id ?? sentTo.reciever_id;*/
             ViewBag.sendToId = id;
-            ViewBag.currentuser = _usermanager.GetUserId(User);
+            ViewBag.currentuser = _usermanager.Users.SingleOrDefault(x=>x.Id == id)?.UserName;
             return View(await jiraContext.ToListAsync());
         }
 

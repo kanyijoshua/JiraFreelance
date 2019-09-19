@@ -80,7 +80,15 @@
                     @if (User.IsInRole("Employer"))
                     {
                         <a class="btn btn-sm btn-primary" asp-action="Details" asp-route-id="@item.PkJobId">Details</a>
-                        <a class="btn btn-sm btn-primary" asp-controller="TblJobAttachments" asp-action="Create" asp-route-FkJob="@item.PkJobId"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>Add Attachment</a>
+                        if (item.TblJobAttachment.Count>0)
+                        {
+                            <a class="btn btn-sm btn-primary" asp-controller="TblJobAttachments" asp-action="Index" asp-route-FkJob="@item.PkJobId"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>Edit Attachments</a>
+                        }
+                        else if (item.TblJobAttachment.Count<=0)
+                        {
+                            <a class="btn btn-sm btn-primary" asp-controller="TblJobAttachments" asp-action="Create" asp-route-FkJob="@item.PkJobId"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>Add Attachment</a>
+                        }
+                        //if job is created by the current employer user
                         if (item.FkJobEmployer == _userManager.GetUserId(User))
                         {
                             <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.PkJobId">Edit</a>
@@ -93,33 +101,55 @@
                             {
                                 <a class="btn btn-sm btn-primary" asp-action="Bidusers" asp-controller="TblBids" asp-route-jobid="@item.PkJobId">View Bidders</a>
                             }
-
                         }
 
                     }
+                    //if user is freelancer
                     else if (User.IsInRole("Freelancer"))
                     {
+                        //if user has bidded the job
                         if (item.TblBid.Any(x => x.FkBidUser == _userManager.GetUserId(User)))
                         {
+                            //if the bid is granted
                             if (item.JobStatus == "Granted")
                             {
                                 <button disabled="disabled" class="btn btn-sm btn-danger">Bid Granted</button>
-                            }
+                            }//if the bid is not granted
                             else
                             {
                                 <button disabled="disabled" class="btn btn-sm btn-danger">Bidded</button>
                             }
-
+                            if (item.TblJobAttachment.Count>0)
+                            {
+                                <a class="btn btn-sm btn-primary" asp-controller="TblJobAttachments" asp-action="Index" asp-route-FkJob="@item.PkJobId"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>View Attachments</a>
+                            }else
+                            {
+                                <button disabled="disabled" class="btn btn-sm btn-danger"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>No Attachments</button>
+                            }
                         }
+                        //if user has not bidded the job
                         else
                         {
+                            //if the job has been granted
                             if (item.JobStatus == "Granted")
                             {
                                 <button disabled="disabled" class="btn btn-sm btn-danger">Bid Granted</button>
-                            }
+                                if (item.TblJobAttachment.Count>0)
+                                {
+                                    <button disabled="disabled" class="btn btn-sm btn-danger"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>No Attachments</button>
+                                }
+                            }//if the job has not been granted
                             else
                             {
                                 <a class="btn btn-sm btn-primary" asp-controller="TblBids" asp-action="Create" asp-route-jobId="@item.PkJobId">Bid</a>
+                                if (item.TblJobAttachment.Count>0)
+                                {
+                                    <a class="btn btn-sm btn-primary" asp-controller="TblJobAttachments" asp-action="Index" asp-route-FkJob="@item.PkJobId"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>Edit Attachments</a>
+                                }
+                                else
+                                {
+                                    <button disabled="disabled" class="btn btn-sm btn-danger"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>No Attachments</button>
+                                }
                             }
                         }
 

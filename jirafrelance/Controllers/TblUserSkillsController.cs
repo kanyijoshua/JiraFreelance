@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using jirafrelance.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace jirafrelance.Controllers
 {
@@ -26,6 +27,16 @@ namespace jirafrelance.Controllers
         public async Task<IActionResult> Index(string id)
         {
             IQueryable<TblUserSkill> jiraContext = _context.TblUserSkill.Include(t => t.FkSkillUser);
+            var skillcert = from tblUserSkill in _context.TblUserSkill
+                join certs in _context.TblUserCertification on tblUserSkill.FkSkillUserId equals certs
+                    .FkCertificationUserId select new {tblUserSkill , certs};
+            
+            var certskill = _context.TblUserSkill.Join(
+                _context.TblUserCertification,
+                skill => skill.FkSkillUserId,
+                cert => cert.FkCertificationUserId,
+                (skill, cert) =>
+                new {skill, cert});
             if (!string.IsNullOrEmpty(id))
             {
                 jiraContext = jiraContext.Where(x => x.FkSkillUser.Id == id)

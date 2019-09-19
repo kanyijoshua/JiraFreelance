@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using jirafrelance.Models;
 using jirafrelance.Hubs;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using jirafrelance.Services;
 
 namespace jirafrelance
 {
@@ -44,6 +46,8 @@ namespace jirafrelance
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<JiraContext>();
             services.AddSignalR();
+
+            services.AddSingleton<IEmailSender, EmailSender>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication();

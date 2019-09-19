@@ -5,17 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Attachments</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.IsInRole("Employer"))
+{
+    <p>
+        <a asp-action="Create" asp-route-FkJob="@ViewBag.FkJob">Create New</a>
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.JobAttachmentFilePath)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.JobAttachmentFileName)
             </th>
@@ -23,7 +27,7 @@
                 @Html.DisplayNameFor(model => model.JobAttachmentDownloadName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FkAttachmentJobNavigation)
+                @Html.DisplayNameFor(model => model.FkAttachmentJobNavigation.JobBudget)
             </th>
             <th></th>
         </tr>
@@ -31,9 +35,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.JobAttachmentFilePath)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.JobAttachmentFileName)
             </td>
@@ -44,9 +48,18 @@
                 @Html.DisplayFor(modelItem => item.FkAttachmentJobNavigation.JobBudget)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PkJobAttachmentId" asp-route-jobid="@item.FkAttachmentJob">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PkJobAttachmentId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PkJobAttachmentId">Delete</a>
+                @if (User.IsInRole("Employer"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.PkJobAttachmentId" asp-route-jobid="@item.FkAttachmentJob">Edit</a> 
+                    <a asp-action="Details" asp-route-id="@item.PkJobAttachmentId">Details</a> 
+                    <a asp-action="Delete" asp-route-id="@item.PkJobAttachmentId">Delete</a>
+                    <a asp-action="DownloadFile" asp-route-filename="@item.JobAttachmentFilePath">Download Attachment</a>
+                }
+                else
+                {
+                    <a asp-action="DownloadFile" asp-route-filename="@item.JobAttachmentFilePath">Download Attachment</a>
+                }
+                
             </td>
         </tr>
 }

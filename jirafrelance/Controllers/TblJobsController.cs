@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace jirafrelance.Controllers
 {
+    [Authorize]
     public class TblJobsController : Controller
     {
         private readonly JiraContext _context;
@@ -23,9 +24,10 @@ namespace jirafrelance.Controllers
         }
 
         // GET: TblJobs
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            IQueryable<TblJob> jiraContext = _context.TblJob.Include(t => t.FkJobEmployerNavigation).Include(x=>x.TblBid);
+            IQueryable<TblJob> jiraContext = _context.TblJob.Include(t => t.FkJobEmployerNavigation).Include(x=>x.TblJobAttachment).Include(x=>x.TblBid);
             if (User.IsInRole("Employer"))
             {
                 jiraContext = jiraContext.Where(x => x.FkJobEmployer == _userManager.GetUserId(User));

@@ -6,29 +6,97 @@
     ViewData["Title"] = "Massages";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .chat
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .chat li
+    {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px dotted #B3A9A9;
+    }
+    
+    .chat li.left .chat-body
+    {
+        margin-left: 60px;
+    }
+    
+    .chat li.right .chat-body
+    {
+        margin-right: 60px;
+    }
+    
+    
+    .chat li .chat-body p
+    {
+        margin: 0;
+        color: #777777;
+    }
+    
+    .panel .slidedown .glyphicon, .chat .glyphicon
+    {
+        margin-right: 5px;
+    }
+    
+    .panel-body
+    {
+        overflow-y: scroll;
+        height: 250px;
+    }
+    
+    ::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #156504;
+    }
+    
+    ::-webkit-scrollbar
+    {
+        width: 12px;
+        background-color: #156504;
+    }
+    
+    ::-webkit-scrollbar-thumb
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
+</style>
+@if (ViewBag.currentuser != null)
+{
+    <h1>@ViewBag.currentuser Chat</h1>
+}
+else
+{
+    <h1>Massages</h1>
+}
 
-<h1>Massages</h1>
 
 @*<p>
     <a asp-action="Create">Create New</a>
 </p>*@
 <div class="row">
-    <div class="col-md-12">
-        <table class="table" id="chat-table">
+    <div class="overflow-auto container"  style="height: 70%;">
+        @*<table class="table" id="chat-table">
             <thead>
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.message)
                 </th>
                 <th>
-                    @*@Html.DisplayNameFor(model => model.created_at)*@
+                    @#1#Html.DisplayNameFor(model => model.created_at)#1#
                     Date sent
                 </th>
                 <th>
-                    Sender @*@Html.DisplayNameFor(model => model.FkSender.UserName)*@
+                    Sender @#1#Html.DisplayNameFor(model => model.FkSender.UserName)#1#
                 </th>
                 <th>
-                    Recipent @*@Html.DisplayNameFor(model => model.FkReciever.UserName)*@
+                    Recipent @#1#Html.DisplayNameFor(model => model.FkReciever.UserName)#1#
                 </th>
                 <th></th>
             </tr>
@@ -56,14 +124,14 @@
                     <td>
                         @if (item.FkReciever != null)
                         {
-                           @if (item.FkReciever.Id == UserManager.GetUserId(User))
-                               {
-                                   <p>Me</p>
-                               }
-                               else
-                               {
-                                   @Html.DisplayFor(modelItem => item.FkReciever.UserName)
-                               } 
+                            @if (item.FkReciever.Id == UserManager.GetUserId(User))
+                             {
+                                 <p>Me</p>
+                             }
+                             else
+                             {
+                                 @Html.DisplayFor(modelItem => item.FkReciever.UserName)
+                             } 
                         }
                         else
                         {
@@ -72,8 +140,8 @@
                         
                     </td>
                     <td>
-                        @*<a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.MessageId">Details</a> |*@
+                        $1$<a asp-action="Edit" asp-route-id="@item.MessageId">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.MessageId">Details</a> |#1#
                         @if (item.sender_id == UserManager.GetUserId(User))
                         {
                             <a class="btn btn-primary btn-sm" asp-action="Delete" asp-route-id="@item.MessageId">Delete</a>
@@ -83,9 +151,89 @@
                 </tr>
             }
             </tbody>
-        </table>
+        </table>*@
     </div>
-    @if (null != @ViewBag.sendToId)
+    <div class="container" style="height: 70%!important;">
+    <div class="row" style="height: 70%!important;">
+        <div class="col-md-11">
+            <div class="panel panel-primary">
+                @*<div class="panel-heading" id="accordion">
+                    <span class="glyphicon glyphicon-comment"></span> Chat
+                    <div class="btn-group pull-right">
+                        <a type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                    </div>
+                </div>*@
+            <div class="panel-collapse" id="collapseOne">
+                <div class="panel-body">
+                    <ul class="chat">
+                        @foreach (var item in Model)
+                            {
+                                @if (item.sender_id == UserManager.GetUserId(User))
+                                 { 
+                                    <li class="right clearfix">
+                                        <span class="chat-img pull-right">
+                                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle"/>
+                                        </span>
+                                        <div class="chat-body clearfix">
+                                            <div class="header">
+                                                <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>@item.created_at</small>
+                                                <strong class="pull-left primary-font">Me</strong>
+                                            </div>
+                                            <p>
+                                                @item.message
+                                            </p>
+                                            <a class=" btn-sm" asp-action="Delete" asp-route-id="@item.MessageId">Delete massage</a>
+                                            
+                                        </div>
+                                    </li>
+                                 }
+                                 @if(item.reciever_id == UserManager.GetUserId(User))
+                                 {
+                                     @Html.DisplayFor(modelItem => item.FkSender.UserName)
+                                     <li class="left clearfix">
+                                         <span class="chat-img pull-left">
+                                             <img src="http://placehold.it/50/55C1E7/fff&text=@item.FkSender.UserName.ToCharArray().ElementAt(0)" alt="User Avatar" class="img-circle"/>
+                                         </span>
+                                         <div class="chat-body clearfix">
+                                             <div class="header">
+                                                 <strong class="primary-font">@Html.DisplayFor(modelItem => item.FkSender.UserName)</strong>
+                                                 <small class="pull-right text-muted">
+                                                     <span class="glyphicon glyphicon-time"></span>@item.created_at</small>
+                                             </div>
+                                             <p>
+                                                 @item.message
+                                             </p>
+                                         </div>
+                                     </li>
+                                 }
+                            }
+                    </ul>
+                </div>
+                @if (null != @ViewBag.sendToId)
+                {
+                    <div class="panel-footer">
+                         <form asp-action="sendMessage" method="post" id="chat-input-form">
+                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                             <input type="hidden" required="required" value="@ViewBag.sendToId" name="reciever_id">
+                             <div class="input-group">
+                                  <input id="btn-input" type="text" required="required" class="form-control input-sm" id="messagetext" name="message" placeholder="Type your message here..."/>
+                                  <span class="input-group-btn">
+                                      <button class="btn btn-sm" style="background-color: #156504" id="btn-chat">
+                                          Send</button>
+                                  </span>
+                              </div>
+                         </form>
+                     </div>
+                }
+                
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @*@if (null != @ViewBag.sendToId)
     {
         <div class="col-md-12" style="display: inline; position: fixed;bottom: 25px;width: 70%;z-index:1;">
             <form asp-action="sendMessage" method="post" id="chat-input-form">
@@ -94,12 +242,9 @@
                 <div class="form-group">
                     <input type="text" class="form-control" required="required" id="messagetext" name="message">
                 </div>
-                <div class="form-group">
-                    <input type="submit" value="Send" id="submitbutton"  class="form-control btn btn-sm btn-info">
-                </div>
             </form>
         </div>
-    }
+    }*@
     
 </div>
 
@@ -117,7 +262,22 @@
               var reciever = "@usermanager.GetUserId(User)"===msg.reciever_id?"Me":msg.recievername;
               var delete_btn = msg.sender_id === "@usermanager.GetUserId(User)"?`<a class="btn btn-primary btn-sm" href="/Massages/Delete/${msg.messageId}">Delete</a>`:"";
               var newrow =$('<tr><td> '+msg.message+ '</td> <td> '+msg.created_at+ '</td><td> '+sender+ '</td><td> '+reciever+ '</td><td>'+delete_btn+'<td></tr>');
-              $('#chat-table tbody').append(newrow)
+              /*$('#chat-table tbody').append(newrow)*/
+              var newlist = $('<li class="right clearfix">\n'+
+                               '<span class="chat-img pull-right">\n'+
+                               '<img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle"/>\n'+
+                               '</span>\n'+
+                               '<div class="chat-body clearfix">\n'+
+                               '<div class="header">\n'+
+                               '<small class=" text-muted"><span class="glyphicon glyphicon-time"></span>'+msg.created_at+ '</small>\n'+
+                               '<strong class="pull-left primary-font">'+sender+'</strong>\n'+
+                               '</div>\n'+
+                               '<p>\n'+
+                               ''+msg.message+ '\n'+
+                               '</p>\n'+
+                               '</div>\n'+
+                               '</li>');
+              $('.chat').append(newlist)
           } 
         })
     
@@ -137,6 +297,7 @@
               contentType: false,
               processData: false,
               success: function (data) {
+                  $("#messagetext").val("");
                   if (data !="ok") {
                       //console.log(data);
                       coonection.invoke("SendMessage",data);

@@ -33,14 +33,16 @@
             @if (ViewData["applicationRoles"] != null)
             {
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Register<span class="caret"></span></a>
-                    <ul class="dropdown-menu" style="background-color: #156504;">
-
-                        @foreach (var rolesname in (IEnumerable<dynamic>)ViewData["applicationRoles"])
-                        {
-                            <li><a asp-area="Identity" asp-page="/Account/Register" asp-route-roles="@rolesname" style="color: white!important;">As @rolesname</a></li>
-                        }
-                    </ul>
+                    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Register<span class="caret"></span></a>
+                    @*<ul class="dropdown-menu" style="background-color: #156504;">*@
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #156504;z-index: 1000!important;">
+                           @foreach (var rolesname in (IEnumerable<dynamic>)ViewData["applicationRoles"])
+                               {
+                                   <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register" asp-route-roles="@rolesname" style="color: white!important;">As @rolesname</a>
+                               } 
+                        </div>
+                        
+                    @*</ul>*@
                 </li>
             }
             else

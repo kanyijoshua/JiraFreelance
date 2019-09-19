@@ -54,9 +54,18 @@ namespace jirafrelance.Controllers
             return View(await jiraContextdb.ToListAsync());
         }
 
-        public async Task<IActionResult> Bidusers(int jobId)
+        public async Task<IActionResult> Bidusers(int? jobId)
         {
-            var jiraContext = _context.TblBid.Where(x => x.FkJobBidded == jobId).Include(z=>z.FkJobBiddedNavigation).Include(x=>x.FkBidUserNavigation);
+            IQueryable<TblBid> jiraContext = _context.TblBid.Include(z=>z.FkJobBiddedNavigation).Include(x=>x.FkJobBiddedNavigation.FkJobEmployerNavigation).Include(x=>x.FkBidUserNavigation);
+            if (User.IsInRole("Support"))
+            {
+                jiraContext = jiraContext;
+            }
+
+            if (User.IsInRole("Employer"))
+            {
+                jiraContext = jiraContext.Where(x => x.FkJobBidded == jobId);
+            }
             return View(await jiraContext.ToListAsync());
         }
 
@@ -196,6 +205,7 @@ namespace jirafrelance.Controllers
         {
             var bidupdate = _context.TblBid.SingleOrDefault(x => x.PkBidId == PkBidId);
             var job_edit = _context.TblJob.SingleOrDefault(x => x.PkJobId== bidupdate.FkJobBidded);
+            var tblWorkspace = _context.TblWorkspace.Where(x => x.FkWkspcBid == PkBidId);
             try
             {
                 if (grantstate=="grant")
@@ -210,6 +220,10 @@ namespace jirafrelance.Controllers
                     bidupdate.BidStatus = "Active";
                     bidupdate.BidAwardTime = "";
                     job_edit.JobStatus = "Active";
+                    foreach (var wks in tblWorkspace)
+                    {
+                        _context.TblWorkspace.Remove(wks);
+                    }
                 }
                 
                 _context.Update(bidupdate);

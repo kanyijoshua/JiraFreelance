@@ -15,6 +15,7 @@ namespace jirafrelance.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
+                /*services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));*/
             });
         }
     }

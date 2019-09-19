@@ -63,7 +63,7 @@ namespace jirafrelance.Models
 
                 entity.Property(e => e.BidAwardTime)
                     .HasColumnName("bid_award_time")
-                    .HasMaxLength(20);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.BidOfferInformation)
                     .HasColumnName("bid_offer_information")
@@ -771,8 +771,8 @@ namespace jirafrelance.Models
                 entity.Property(e => e.FkWkspcBid).HasColumnName("fk_wkspc_bid");
 
                 entity.Property(e => e.WkspcActualEndTime)
-                    .HasColumnName("wkspc_actual_end_time")
-                    .HasMaxLength(20);
+                    .HasColumnName("wkspc_actual_endtime")
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.WkspcAmountAgreed)
                     .IsRequired()
@@ -781,8 +781,8 @@ namespace jirafrelance.Models
 
                 entity.Property(e => e.WkspcExpectendEndTime)
                     .IsRequired()
-                    .HasColumnName("wkspc_expectend_end_time")
-                    .HasMaxLength(20);
+                    .HasColumnName("wkspc_expectend_endtime")
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.WkspcFeedback)
                     .HasColumnName("wkspc_feedback")
@@ -794,8 +794,8 @@ namespace jirafrelance.Models
 
                 entity.Property(e => e.WkspcStartTime)
                     .IsRequired()
-                    .HasColumnName("wkspc_start_time")
-                    .HasMaxLength(20);
+                    .HasColumnName("wkspc_starttime")
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.WkspcStatus)
                     .IsRequired()
