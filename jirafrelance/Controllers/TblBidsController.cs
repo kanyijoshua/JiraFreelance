@@ -217,13 +217,20 @@ namespace jirafrelance.Controllers
 
                 if (grantstate=="ungrant")
                 {
-                    bidupdate.BidStatus = "Active";
+                    foreach (var bids in _context.TblBid.Where(x=>x.FkJobBidded== bidupdate.FkJobBidded))
+                    {
+                        bids.BidStatus = "Active";
+                    }
                     bidupdate.BidAwardTime = "";
                     job_edit.JobStatus = "Active";
-                    foreach (var wks in tblWorkspace)
+                    if (tblWorkspace.Any())
                     {
-                        _context.TblWorkspace.Remove(wks);
+                        foreach (var wks in tblWorkspace)
+                        {
+                            _context.TblWorkspace.Remove(wks);
+                        }
                     }
+                    
                 }
                 
                 _context.Update(bidupdate);

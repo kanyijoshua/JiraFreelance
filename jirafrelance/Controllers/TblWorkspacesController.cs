@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -62,16 +63,23 @@ namespace jirafrelance.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles ="Support")]
-        public async Task<IActionResult> Create([Bind("PkWkspcId,FkWkspcBid,WkspcStartTime,WkspcExpectendEndTime,WkspcActualEndTime,WkspcRating,WkspcStatus,WkspcFeedback,WkspcAmountAgreed")] TblWorkspace tblWorkspace)
+        public async Task<IActionResult> Create([Bind("PkWkspcId,FkWkspcBid,WkspcStartTime,WkspcExpectendEndTime")] TblWorkspace tblWorkspace)
         {
-            var bidupdate = _context.TblBid.SingleOrDefault(x => x.PkBidId == tblWorkspace.FkWkspcBid);
-            var job_edit = _context.TblJob.SingleOrDefault(x => x.PkJobId== bidupdate.FkJobBidded);
+            var bidupdate = _context.TblBid;
+            var job_edit = _context.TblJob.SingleOrDefault(z => z.PkJobId== bidupdate.SingleOrDefault(x => x.PkBidId == tblWorkspace.FkWkspcBid).FkJobBidded);
+            tblWorkspace.WkspcAmountAgreed = "0";
+            tblWorkspace.WkspcStatus = "Started";
             if (ModelState.IsValid)
             {
+                var update_bid = bidupdate.SingleOrDefault(x => x.PkBidId == tblWorkspace.FkWkspcBid);
                 _context.Add(tblWorkspace);
-                bidupdate.BidStatus = "Granted";
-                bidupdate.BidAwardTime = DateTime.Now.ToString();
-                job_edit.JobStatus = "Granted";
+                if (update_bid != null) update_bid.BidStatus = "Granted";
+                if (update_bid != null) update_bid.BidAwardTime = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+                if (job_edit != null) job_edit.JobStatus = "Granted";
+                foreach (var deniedbid in bidupdate.Where(x=>x.PkBidId!=tblWorkspace.FkWkspcBid && x.FkJobBidded==job_edit.PkJobId))
+                {
+                    deniedbid.BidStatus = "Denied";
+                }
                 await _context.SaveChangesAsync();
                 /*return RedirectToAction(nameof(Index),new {tblWorkspace.FkWkspcBid});*/
                 return RedirectToAction("Bidusers","TblBids");

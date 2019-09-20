@@ -44,10 +44,10 @@ namespace jirafrelance
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
-                .AddEntityFrameworkStores<JiraContext>();
+                .AddEntityFrameworkStores<JiraContext>().AddDefaultTokenProviders();
             services.AddSignalR();
 
-            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAuthentication();

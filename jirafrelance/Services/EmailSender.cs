@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 
 namespace jirafrelance.Services
 {
@@ -30,7 +31,7 @@ namespace jirafrelance.Services
             {
                 var mimeMessage = new MimeMessage();
 
-                mimeMessage.From.Add(new MailboxAddress(_emailSettings.SenderName, _emailSettings.Sender));
+                mimeMessage.From.Add(new MailboxAddress("Joshua", "jimwanyoikedammy@gmail.com"));
 
                 mimeMessage.To.Add(new MailboxAddress(email));
 
@@ -43,12 +44,19 @@ namespace jirafrelance.Services
 
                 using (var smtp = new SmtpClient())
                 {
-                    smtp.Host = "smtp.gmail.com";
+                    /*smtp.Host = "smtp.gmail.com";
                     smtp.Port = 587;
                     smtp.EnableSsl = true;
                     NetworkCredential nc = new NetworkCredential("jimwanyoikedammy@gmail.com", "wanyoike2");
                     smtp.UseDefaultCredentials = true;
-                    smtp.Credentials = nc;
+                    smtp.Credentials = nc;*/
+                    
+                    smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                    await smtp.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                    await smtp.AuthenticateAsync("jimwanyoikedammy@gmail.com", "wanyoike2");
+                    await smtp.SendAsync(mimeMessage);
+                    await smtp.DisconnectAsync(true);
                     //smtp.Send(mimeMessage);
                     // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
                     //smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;

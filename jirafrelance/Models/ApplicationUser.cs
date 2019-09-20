@@ -25,7 +25,7 @@ namespace jirafrelance.Models
         public enum Gender
         {
             Male,
-            Female
+            Female,
         }
         public DateTime DateOfBirth { get; set; }
         public int Balance { get; set; }

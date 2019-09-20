@@ -61,9 +61,19 @@
                     {
                         @if (User.IsInRole("Support"))
                          {
-                            <td>
-                                <button disabled="disabled" class="btn btn-sm btn-danger">bid granted</button>
-                            </td>
+                             @if (item.BidStatus == "Granted")
+                              {
+                                  <td>
+                                     <button disabled="disabled" class="btn btn-sm btn-danger">bid granted</button>
+                                 </td>
+                              }
+                             if (item.BidStatus == "Denied")
+                             {
+                                 <td>
+                                      <button disabled="disabled" class="btn btn-sm btn-danger">bid Denied</button>
+                                  </td>
+                             }
+                            
                          }
                     }
                     

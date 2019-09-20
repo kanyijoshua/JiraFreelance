@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using jirafrelance.Models;
+using jirafrelance.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
 
 namespace jirafrelance.Controllers
 {
@@ -16,11 +19,13 @@ namespace jirafrelance.Controllers
     {
         private readonly JiraContext _context;
         private readonly UserManager<ApplicationUser> _usermanager;
+        private readonly IHostingEnvironment _environment;
 
-        public TblUserCertificationsController(JiraContext context,UserManager<ApplicationUser>userManager)
+        public TblUserCertificationsController(JiraContext context,UserManager<ApplicationUser>userManager, IHostingEnvironment environment)
         {
             _context = context;
             _usermanager = userManager;
+            _environment = environment;
         }
 
         // GET: TblUserCertifications
@@ -61,16 +66,29 @@ namespace jirafrelance.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PkCertificationId,CertificationName")] TblUserCertification tblUserCertification)
+        public async Task<IActionResult> Create([Bind("PkCertificationId,CertificationName,FkCertificationUserId")] CertificateViewModel tblUserCertification)
         {
             tblUserCertification.FkCertificationUserId = _usermanager.GetUserId(User);
-            if (ModelState.IsValid)
-            {
-                _context.Add(tblUserCertification);
+                string uniqucertename = null;
+                if (tblUserCertification.CertificationName != null)
+                {
+                    string filefolder = Path.Combine(_environment.WebRootPath,"Files");
+                    uniqucertename = Guid.NewGuid().ToString()+"_"+tblUserCertification.CertificationName.FileName;
+                    string filepath = Path.Combine(filefolder, uniqucertename);
+                    tblUserCertification.CertificationName.CopyTo(new FileStream(filepath, FileMode.Create));
+                }
+                TblUserCertification newCert = new TblUserCertification()
+                {
+                    CertificationName = uniqucertename,
+                    FkCertificationUserId = _usermanager.GetUserId(User)
+
+                };
+                _context.Add(newCert);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["FkCertificationUserId"] = new SelectList(_context.Users, "Id", "Id", tblUserCertification.FkCertificationUserId);
+            //}
+            //ViewData["FkCertificationUserId"] = new SelectList(_context.Users, "Id", "Id", tblUserCertification.FkCertificationUserId);
             return View(tblUserCertification);
         }
 

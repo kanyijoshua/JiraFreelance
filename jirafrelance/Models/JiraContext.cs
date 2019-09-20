@@ -649,7 +649,7 @@ namespace jirafrelance.Models
                 entity.Property(e => e.CertificationName)
                     .IsRequired()
                     .HasColumnName("certification_name")
-                    .HasMaxLength(10);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.FkCertificationUserId).HasColumnName("fk_certification_user_id");
 

@@ -144,7 +144,7 @@
                                 <a class="btn btn-sm btn-primary" asp-controller="TblBids" asp-action="Create" asp-route-jobId="@item.PkJobId">Bid</a>
                                 if (item.TblJobAttachment.Count>0)
                                 {
-                                    <a class="btn btn-sm btn-primary" asp-controller="TblJobAttachments" asp-action="Index" asp-route-FkJob="@item.PkJobId"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>Edit Attachments</a>
+                                    <a class="btn btn-sm btn-primary" asp-controller="TblJobAttachments" asp-action="Index" asp-route-FkJob="@item.PkJobId"><img width="18" height="18" style="margin-right:4px;margin-bottom:5px" src="~/images/attachment.png"/>View Attachments</a>
                                 }
                                 else
                                 {

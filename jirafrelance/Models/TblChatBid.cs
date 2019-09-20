@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace jirafrelance.Models
 {
@@ -8,6 +9,7 @@ namespace jirafrelance.Models
         public int PkBidChatId { get; set; }
         public int FkBidChatBidding { get; set; }
         //public int FkBidChatAdmin { get; set; }
+        [DataType(DataType)]
         public string FkBidChatUser { get; set; }
         public string BidChatMessage { get; set; }
         public string BidChatTimeSent { get; set; }
